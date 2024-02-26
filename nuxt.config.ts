@@ -1,4 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true }
+  devtools: { enabled: true },
+  css: ['bootstrap/dist/css/bootstrap.css'],
+
+  plugins: [
+
+    { src: '~/plugins/bootstrap-vue.js', ssr: false },
+
+  ],
 })
