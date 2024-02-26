@@ -19,8 +19,12 @@
       }
     }
 
-    const handleInputName = (fieldName) => {
-      validateField(fieldName, 'Le champs doit comporter plus de 2 caractères', (value) => value.length >= 3)
+    const handleInputName = () => {
+      validateField('name', 'Le champs doit comporter plus de 2 caractères', (value) => value.length >= 3)
+    }
+  
+    const handleInputSurname = () => {
+      validateField('surname', 'Le champs doit comporter plus de 1 caractère', (value) => value.length >= 2)
     }
 
     const handleInputEmail = () => {
@@ -31,7 +35,7 @@
       validateField('phone', 'Le numéro de téléphone est invalide', (value) => validatePhone(value))
     }
 
-    const handleInputMessage = (message) => {
+    const handleInputMessage = () => {
       validateField('message', 'Votre message doit comporter plus de 50 caractères', (value) => value.length >= 51)
     }
 
@@ -45,8 +49,10 @@
       return re.test(String(phone))
     }
 
+
     const handleSubmit = () => {
       handleInputName()
+      handleInputSurname()
       handleInputEmail()
       handleInputPhone()
       handleInputMessage()
@@ -56,13 +62,15 @@
 </script>
 
 <template>
+  <div class="container">
+
     <form @submit.prevent="handleSubmit">
       <div>
         <label>Nom</label>  
         <input
             type="text"
             v-model="fields.name.value"
-            @input="handleInputName('name')"
+            @input="handleInputName"
             class="form-control"
             placeholder="Votre nom...*"
             required="required"
@@ -75,7 +83,7 @@
         <input
             type="text"
             v-model="fields.surname.value"
-            @input="handleInputName('surname')"
+            @input="handleInputSurname"
             class="form-control"
             placeholder="Votre prénom...*"
             required="required"
@@ -125,4 +133,5 @@
         <button type="submit" class="btn btn-primary mt-1">Envoyer</button>
       </div>
     </form>
+  </div>
   </template>
