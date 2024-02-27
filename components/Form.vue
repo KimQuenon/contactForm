@@ -47,10 +47,10 @@
     }
 
     const validatePhone = (phone) => {
-      const re = /^(\+\d{1,3}\s?)?((\(\d{1,3}\))|\d{1,3})[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/
-      return re.test(String(phone))
+      const re = /^(\+\d{1,3}\s?)?((\(\d{1,3}\))|\d{1,3})[-.\s]?\d{2,4}[-.\s]?\d{2,4}[-.\s]?\d{2,4}$/;
+      return re.test(String(phone)) && phone.length <= 15;
     }
-    
+  
 
     const handleSubmit = () => {
       handleInputName()
