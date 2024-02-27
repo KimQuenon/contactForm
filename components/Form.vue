@@ -2,8 +2,10 @@
     import { ref } from 'vue'
     import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 
+    //init successMessage
     const successMessage = ref('')
 
+    //init array of fields
     const fields = ref({
       name: { value: '', error: false, errorMessage: '' },
       surname: { value: '', error: false, errorMessage: '' },
@@ -12,6 +14,7 @@
       message: { value: '', error: false, errorMessage: '' },
     })
 
+    //fields validation + init errorMessags
     const validateField = (fieldName, errorMessage, validator) => {
       if (!validator(fields.value[fieldName].value)) {
         fields.value[fieldName].error = true
@@ -22,6 +25,7 @@
       }
     }
 
+    //error messages - inputs
     const handleInputName = () => {
       validateField('name', 'Le champs doit comporter plus de 2 caractères', (value) => value.length >= 3)
     }
@@ -42,6 +46,7 @@
       validateField('message', 'Votre message doit comporter plus de 50 caractères', (value) => value.length >= 51)
     }
 
+    //regex mail & phone
     const validateEmail = (email) => {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(String(email).toLowerCase())
@@ -52,7 +57,7 @@
       return re.test(String(phone)) && phone.length <= 15;
     }
   
-
+    //submit form
     const handleSubmit = () => {
       handleInputName()
       handleInputSurname()
@@ -60,14 +65,15 @@
       handleInputPhone()
       handleInputMessage()
 
-      console.log('Données du formulaire:', {
-        name: fields.value.name.value,
-        surname: fields.value.surname.value,
-        email: fields.value.email.value,
-        phone: fields.value.phone.value,
-        message: fields.value.message.value
-      })
+      // console.log('Données du formulaire:', {
+      //   name: fields.value.name.value,
+      //   surname: fields.value.surname.value,
+      //   email: fields.value.email.value,
+      //   phone: fields.value.phone.value,
+      //   message: fields.value.message.value
+      // })
 
+      //0 error => form submitted + clear fields
       if (Object.values(fields.value).every(field => !field.error)) {
 
           successMessage.value = 'Votre message a bien été envoyé.'
