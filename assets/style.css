@@ -1,0 +1,12 @@
+.container-home{
+    width:40%;
+    height: 95vh;
+    border-radius: 30px;
+    box-shadow:  20px 20px 60px #d9d9d9,
+             -20px -20px 60px #ffffff;
+    padding:3.5em;
+}
+
+textarea{
+    resize:none;
+}

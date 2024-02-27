@@ -1,6 +1,8 @@
 <script setup>
     import { ref } from 'vue'
 
+    const successMessage = ref('')
+
     const fields = ref({
       name: { value: '', error: false, errorMessage: '' },
       surname: { value: '', error: false, errorMessage: '' },
@@ -48,7 +50,7 @@
       const re = /^(\+\d{1,3}\s?)?((\(\d{1,3}\))|\d{1,3})[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/
       return re.test(String(phone))
     }
-
+    
 
     const handleSubmit = () => {
       handleInputName()
@@ -56,6 +58,24 @@
       handleInputEmail()
       handleInputPhone()
       handleInputMessage()
+
+      console.log('Données du formulaire:', {
+        name: fields.value.name.value,
+        surname: fields.value.surname.value,
+        email: fields.value.email.value,
+        phone: fields.value.phone.value,
+        message: fields.value.message.value
+      })
+
+      if (Object.values(fields.value).every(field => !field.error)) {
+
+          successMessage.value = 'Votre message a bien été envoyé.'
+
+          Object.keys(fields.value).forEach(field => {
+            fields.value[field].value = ''
+          })
+      }
+
     }
 
 
@@ -63,61 +83,64 @@
 
 <template>
   <div class="container">
-
     <form @submit.prevent="handleSubmit">
-      <div>
-        <label>Nom</label>  
+      <div v-if="successMessage" class="alert alert-success mt-3">
+        {{ successMessage }}
+      </div>
+      <div class="mb-2">
+        <label>Nom<span class="text-danger">*</span></label>  
         <input
             type="text"
             v-model="fields.name.value"
             @input="handleInputName"
             class="form-control"
-            placeholder="Votre nom...*"
+            placeholder="Votre nom..."
             required="required"
             :class="{ 'is-invalid': fields.name.error }"
         >
         <div v-if="fields.name.error" class="invalid-feedback">{{ fields.name.errorMessage }}</div>
       </div>
-      <div>
-        <label>Prénom</label>  
+      <div class="mb-2">
+        <label>Prénom<span class="text-danger">*</span></label>  
         <input
             type="text"
             v-model="fields.surname.value"
             @input="handleInputSurname"
             class="form-control"
-            placeholder="Votre prénom...*"
+            placeholder="Votre prénom..."
             required="required"
             :class="{ 'is-invalid': fields.surname.error }"
         >
         <div v-if="fields.surname.error" class="invalid-feedback">{{ fields.surname.errorMessage }}</div>
       </div>
-      <div>
-        <label>Email</label>
+      <div class="mb-2">
+        <label>Email<span class="text-danger">*</span></label>
         <input
           type="email"  
           v-model="fields.email.value"
           @input="handleInputEmail"
           class="form-control"
-          placeholder="Votre adresse mail...*"
+          placeholder="Votre adresse mail..."
           required="required"
           :class="{ 'is-invalid': fields.email.error }"
         >
         <div v-if="fields.email.error" class="invalid-feedback">{{ fields.email.errorMessage }}</div>
       </div>
-      <div>
-        <label>Téléphone</label>
+      <div class="mb-2">
+        <label>Téléphone<span class="text-danger">*</span></label>
         <input
           type="tel"  
           v-model="fields.phone.value"
           @input="handleInputPhone"
           class="form-control"
           placeholder="Votre numéro de téléphone..."
+          required="required"
           :class = "{ 'is-invalid': fields.phone.error }"
         >
         <div v-if="fields.phone.error" class="invalid-feedback">{{ fields.phone.errorMessage }}</div>
       </div>
-      <div>
-        <label>Message</label>
+      <div class="mb-2">
+        <label>Message<span class="text-danger">*</span></label>
         <textarea
           type="text"
           v-model="fields.message.value"
@@ -130,7 +153,10 @@
         <div v-if="fields.message.error" class="invalid-feedback">{{ fields.message.errorMessage }}</div>
       </div>
       <div>
-        <button type="submit" class="btn btn-primary mt-1">Envoyer</button>
+        <p>(<span class="text-danger">*</span>) Ce champ est obligatoire.</p>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
       </div>
     </form>
   </div>
